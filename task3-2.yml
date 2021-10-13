@@ -1,5 +1,5 @@
 ---
 - name: setup vsftpd with role
-  hosts: all 
+  hosts: nodes 
   roles:
     - role: setup_vsftpd
