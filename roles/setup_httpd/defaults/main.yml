@@ -1,0 +1,4 @@
+---
+# defaults file for index.html
+hello_greeting: Valar Morghulis
+greeting_reply: "What?"

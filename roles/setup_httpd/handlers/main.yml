@@ -1,0 +1,7 @@
+---
+# handler restarts httpd if index.html changed
+- name: restart_httpd
+  service:
+    name: httpd
+    state: restarted
+

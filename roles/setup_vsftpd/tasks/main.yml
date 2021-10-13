@@ -1,0 +1,48 @@
+---
+# tasks file for vsftpd
+
+# installing vsftpd
+- name: install vsftpd
+  yum:
+    name: vsftpd
+    state: installed
+
+# create dirs
+- name: create upload dir
+  file:
+    path: /var/ftp/pub/upload
+    state: directory
+    owner: ftp
+    group: ftp
+    mode: '0755'
+
+# create config with j2 template
+- name: generate vsftpd.conf
+  template:
+    src: templates/vsftpd.j2
+    dest: /etc/vsftpd/vsftpd.conf
+
+# set SELinux vars
+- name: set SELinux env
+  shell:
+    cmd: /usr/sbin/setsebool -P {{ item }} on
+    #    debug:
+            #      msg: "{{ item }}"
+  loop:
+    - ftpd_anon_write
+    - ftpd_full_access
+
+# enabling vsftpd
+- name: enable and start httpd
+  service:
+    name: vsftpd
+    enabled: yes
+    state: started
+
+# also open fw port
+- name: open fw port
+  firewalld:
+    port: 20-21/tcp
+    permanent: yes
+    state: enabled
+

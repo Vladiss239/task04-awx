@@ -1,0 +1,33 @@
+---
+# tasks file for httpd
+
+# installing Apache
+- name: install httpd
+  yum:
+    name: httpd
+    state: installed
+
+# enabling Apache
+- name: enable and start httpd
+  service:
+    name: httpd
+    enabled: yes
+    state: started
+
+# creating index.html with j2 template
+- name: generate index.html
+  template:
+    src: templates/index_contents.j2
+    dest: /var/www/html/index.html
+
+# and restart httpd if we changed it
+  notify:
+    - restart_httpd
+
+# also open fw port
+- name: open fw port
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+

@@ -1,0 +1,6 @@
+---
+- name: setup httpd with role
+  hosts: node1
+  roles:
+    - role: setup_httpd
+      greeting_reply: Valar Dohaeris
